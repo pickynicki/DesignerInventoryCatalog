@@ -58,6 +58,8 @@ INNER JOIN People
 ON Teams.TeamLeaderPersonId = People.Id
 
 --Write a  SELECT query that utilizes a JOIN with 3 or more tables
+
+
 --
 --Write a  SELECT query that utilizes a LEFT JOIN
 --
