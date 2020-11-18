@@ -1,4 +1,5 @@
-﻿--Delete Table Data
+﻿--2nd File (See ReadMe)
+--Delete Table Data
 
 DELETE FROM [dbo].[TeamMembers];
 DELETE FROM [dbo].[Inventories];
@@ -21,7 +22,9 @@ VALUES (1, 'Jessica', 'Rabbit', '2017-06-21'),
 	   (8, 'Princess', 'Leia', '2016-11-20'),
 	   (9, 'Hermione', 'Granger', '2020-07-22'),
 	   (10, 'Dorothy', 'Gale', '2014-02-28'),
-	   (11, 'Cry', 'Baby', '2019-1-20');
+	   (11, 'Cry', 'Baby', '2019-01-20'),
+	   (12, 'Dummy', 'Person', '2020-09-20'),
+	   (13, 'Johnny', 'Five', '2017-08-03');
 
 SET IDENTITY_INSERT dbo.People OFF;
 
@@ -52,7 +55,8 @@ VALUES (1, 1, 1),
 	   (7, 7, 5),
 	   (8, 8, 1),
 	   (9, 9, 4),
-	   (10, 10, 3);
+	   (10, 10, 3),
+	   (11, 13, 2);
 
 SET IDENTITY_INSERT dbo.TeamMembers OFF;
 
@@ -70,7 +74,8 @@ VALUES (1, 'Buzzz Transfer', 'A', 999, 1599),
 	   (7, 'Finding Nemo Transfer', 'C', 1799, 2199),
 	   (8, 'Allonsy Transfer', 'A', 999, 1599),
 	   (9, 'I''m Not Bad Transfer', 'A', 999, 1599),
-	   (10, 'Love You Transfer', 'D', 2199, 2799 );
+	   (10, 'Love You Transfer', 'D', 2199, 2799 ),
+	   (11, 'No Mans Land Transfer', 'C', 1799, 2199);
 
 SET IDENTITY_INSERT dbo.Products OFF;
 

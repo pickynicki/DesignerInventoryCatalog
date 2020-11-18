@@ -1,4 +1,5 @@
-﻿--Create Data Directory if not exists
+﻿--1st File (See Read Me)
+--Create Data Directory if not exists
 
 EXECUTE master.dbo.xp_create_subdir 'C:\DATA\'
 
