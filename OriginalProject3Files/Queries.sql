@@ -1,12 +1,12 @@
---3rd File (See ReadMe)
+--3rd File
 --Write a SELECT query that uses a WHERE clause
 
 SELECT * 
 FROM People
-WHERE FirstName = 'Mandy';
+WHERE FirstName = 'Mandy'
+AND LastName = 'Patinkin';
 
 --Write a  SELECT query that uses an OR and an AND operator
-
 
 SELECT *
 FROM People
@@ -54,7 +54,8 @@ COMMIT;
 
 --Write a  SELECT query that utilizes a JOIN
 
-SELECT People.*, Teams.Name as TeamName FROM Teams
+SELECT People.*, Teams.Name AS TeamName 
+FROM Teams
 INNER JOIN People
 ON Teams.TeamLeaderPersonId = People.Id
 
@@ -151,7 +152,54 @@ WHERE Inventories.Quantity IS NOT NULL
 ORDER BY ProductName, TeamName, TeamQuantity desc, Quantity desc
 
 --Design a NONCLUSTERED INDEX with ONE KEY COLUMN that improves the performance of one of the above queries
---
+
+/*
+DECLARE @price as int;
+SET @price = 999;
+
+UPDATE Products
+SET Wholesale = 1199
+WHERE Wholesale = @price;
+*/
+
+CREATE NONCLUSTERED INDEX IX_Products_Wholesale ON Products
+(
+    Wholesale
+)
+
 --Design a NONCLUSTERED INDEX with TWO KEY COLUMNS that improves the performance of one of the above queries
+
+/*
+SELECT * 
+FROM People
+WHERE FirstName = 'Mandy'
+AND LastName = 'Patinkin';
+*/
+
+CREATE NONCLUSTERED INDEX IX_People_FirstNameLastName ON People
+(
+    FirstName, LastName
+)
 --
 --Design a NONCLUSTERED INDEX with AT LEAST ONE KEY COLUMN and AT LEAST ONE INCLUDED COLUMN that improves the performance of one of the above queries
+
+/*
+SELECT Teams.[Name] AS TeamName, TeamLeader.FirstName + ' ' + TeamLeader.LastName as TeamLeaderName, COUNT (*) AS TeamSize
+FROM People AS TeamLeader
+INNER JOIN Teams
+ON Teams.TeamLeaderPersonId = TeamLeader.Id
+INNER JOIN TeamMembers
+ON Teams.Id = TeamMembers.TeamId
+WHERE TeamLeader.SignUpDate BETWEEN '2016-01-01' AND '2019-05-12'
+GROUP BY Teams.[Name], TeamLeader.FirstName + ' ' + TeamLeader.LastName 
+HAVING COUNT (*) > 2
+*/
+
+CREATE NONCLUSTERED INDEX IX_People_SignUpDate ON People
+(
+  SignUpDate
+) 
+INCLUDE
+(
+  FirstName, LastName
+)

@@ -1,4 +1,4 @@
-﻿--2nd File (See ReadMe)
+﻿--2nd File
 --Delete Table Data
 
 DELETE FROM [dbo].[TeamMembers];

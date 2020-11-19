@@ -1,4 +1,4 @@
-﻿--1st File (See Read Me)
+﻿--1st File
 --Create Data Directory if not exists
 
 EXECUTE master.dbo.xp_create_subdir 'C:\DATA\'
@@ -149,3 +149,4 @@ create table [dbo].[Inventories](
 	FOREIGN KEY (PersonId) REFERENCES People(Id),
 	FOREIGN KEY (ProductId) REFERENCES Products(Id)
 );
+
