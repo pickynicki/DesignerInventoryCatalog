@@ -15,78 +15,6 @@ CREATE DATABASE [DesignerInventoryCatalog]
 ( NAME = N'DesignerInventoryCatalog_log', FILENAME = N'C:\DATA\DesignerInventoryCatalog_log.ldf' , SIZE = 8192KB , FILEGROWTH = 65536KB )
 END
 GO
-ALTER DATABASE [DesignerInventoryCatalog] SET COMPATIBILITY_LEVEL = 150
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET ANSI_NULL_DEFAULT OFF 
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET ANSI_NULLS OFF 
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET ANSI_PADDING OFF 
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET ANSI_WARNINGS OFF 
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET ARITHABORT OFF 
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET AUTO_CLOSE OFF 
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET AUTO_SHRINK OFF 
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET AUTO_CREATE_STATISTICS ON(INCREMENTAL = OFF)
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET AUTO_UPDATE_STATISTICS ON 
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET CURSOR_CLOSE_ON_COMMIT OFF 
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET CURSOR_DEFAULT  GLOBAL 
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET CONCAT_NULL_YIELDS_NULL OFF 
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET NUMERIC_ROUNDABORT OFF 
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET QUOTED_IDENTIFIER OFF 
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET RECURSIVE_TRIGGERS OFF 
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET  DISABLE_BROKER 
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET DATE_CORRELATION_OPTIMIZATION OFF 
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET PARAMETERIZATION SIMPLE 
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET READ_COMMITTED_SNAPSHOT OFF 
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET  READ_WRITE 
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET RECOVERY SIMPLE 
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET  MULTI_USER 
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET PAGE_VERIFY CHECKSUM  
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET TARGET_RECOVERY_TIME = 60 SECONDS 
-GO
-ALTER DATABASE [DesignerInventoryCatalog] SET DELAYED_DURABILITY = DISABLED 
-GO
-USE [DesignerInventoryCatalog]
-GO
-ALTER DATABASE SCOPED CONFIGURATION SET LEGACY_CARDINALITY_ESTIMATION = Off;
-GO
-ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET LEGACY_CARDINALITY_ESTIMATION = Primary;
-GO
-ALTER DATABASE SCOPED CONFIGURATION SET MAXDOP = 0;
-GO
-ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET MAXDOP = PRIMARY;
-GO
-ALTER DATABASE SCOPED CONFIGURATION SET PARAMETER_SNIFFING = On;
-GO
-ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET PARAMETER_SNIFFING = Primary;
-GO
-ALTER DATABASE SCOPED CONFIGURATION SET QUERY_OPTIMIZER_HOTFIXES = Off;
-GO
-ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET QUERY_OPTIMIZER_HOTFIXES = Primary;
-GO
 USE [DesignerInventoryCatalog]
 GO
 IF NOT EXISTS (SELECT name FROM sys.filegroups WHERE is_default=1 AND name = N'PRIMARY') ALTER DATABASE [DesignerInventoryCatalog] MODIFY FILEGROUP [PRIMARY] DEFAULT
@@ -278,13 +206,14 @@ ON TeamMembers.PersonId = People.Id
 INNER JOIN Inventories
 ON Inventories.PersonId = People.Id
 WHERE (TeamId = 3 OR TeamId = 4)
-AND ProductId = 8
+AND ProductId = 8;
 
 --Write a  SELECT query that filters NULL rows using IS NOT NULL
 
 SELECT *
-FROM Inventories
-WHERE Quantity IS NOT NULL;
+FROM Products p
+LEFT JOIN Inventories i on i.ProductId = p.Id
+WHERE i.Id IS NOT NULL;
 
 --Write a DML statement that UPDATEs a set of rows with a WHERE clause. The values used in the WHERE clause should be a variable
 
@@ -320,7 +249,7 @@ COMMIT;
 SELECT People.*, Teams.Name AS TeamName 
 FROM Teams
 INNER JOIN People
-ON Teams.TeamLeaderPersonId = People.Id
+ON Teams.TeamLeaderPersonId = People.Id;
 
 --Write a  SELECT query that utilizes a JOIN with 3 or more tables
 
@@ -329,7 +258,7 @@ FROM People
 INNER JOIN Inventories
 ON Inventories.PersonId = People.Id
 INNER JOIN Products
-ON Products.Id = Inventories.ProductId
+ON Products.Id = Inventories.ProductId;
 
 --Write a  SELECT query that utilizes a LEFT JOIN
 
@@ -337,7 +266,7 @@ SELECT FirstName, LastName, TeamMembers.Id AS TeamMemberId
 FROM People
 LEFT JOIN TeamMembers
 ON People.Id = TeamMembers.PersonId
-WHERE TeamMembers.Id IS NULL
+WHERE TeamMembers.Id IS NULL;
 
 --Write a  SELECT query that utilizes a variable in the WHERE clause
 
@@ -346,7 +275,7 @@ SET @productname = 'pirate';
 
 SELECT *
 FROM Products
-WHERE LOWER([Name]) LIKE '%'+ LOWER(@productname) + '%'
+WHERE LOWER([Name]) LIKE '%'+ LOWER(@productname) + '%';
 
 --Write a  SELECT query that utilizes aN ORDER BY clause
 
@@ -368,13 +297,13 @@ FROM People
 INNER JOIN Inventories
 ON Inventories.PersonId = People.Id
 INNER JOIN Products
-ON Products.Id = Inventories.ProductId
+ON Products.Id = Inventories.ProductId;
 
 --Write a SELECT query that utilizes a SUBQUERY
 
 SELECT *
 FROM Products
-WHERE Id NOT IN (SELECT ProductId FROM Inventories)
+WHERE Id NOT IN (SELECT ProductId FROM Inventories);
 
 --Write a SELECT query that utilizes a JOIN, at least 2 OPERATORS (AND, OR, =, IN, BETWEEN, ETC) AND A GROUP BY clause with an aggregate function
 
@@ -386,7 +315,7 @@ INNER JOIN TeamMembers
 ON Teams.Id = TeamMembers.TeamId
 WHERE TeamLeader.SignUpDate BETWEEN '2016-01-01' AND '2019-05-12'
 GROUP BY Teams.[Name], TeamLeader.FirstName + ' ' + TeamLeader.LastName 
-HAVING COUNT (*) > 2
+HAVING COUNT (*) > 2;
 
 --Write a SELECT query that utilizes a JOIN with 3 or more tables, at 2 OPERATORS (AND, OR, =, IN, BETWEEN, ETC), a GROUP BY clause with an aggregate function, and a HAVING clause
 
@@ -412,7 +341,7 @@ ON TeamMember.Id = TeamMembers.PersonId
 LEFT JOIN Inventories
 ON Inventories.PersonId = TeamMember.Id AND Inventories.ProductId = TeamQuantities.ProductId
 WHERE Inventories.Quantity IS NOT NULL
-ORDER BY ProductName, TeamName, TeamQuantity desc, Quantity desc
+ORDER BY ProductName, TeamName, TeamQuantity desc, Quantity desc;
 
 --Design a NONCLUSTERED INDEX with ONE KEY COLUMN that improves the performance of one of the above queries
 
