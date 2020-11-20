@@ -125,7 +125,8 @@ create table [dbo].[TeamMembers](
 	[PersonId] int not null,
 	[TeamId] int not null,
 	FOREIGN KEY (PersonId) REFERENCES People(Id),
-	FOREIGN KEY (TeamId) REFERENCES Teams(Id)
+	FOREIGN KEY (TeamId) REFERENCES Teams(Id),
+	CONSTRAINT TeamPerson UNIQUE (PersonId, TeamId)
 );
 
 -- Create Products Table
@@ -146,7 +147,8 @@ create table [dbo].[Inventories](
 	[ProductId] int not null,
 	[Quantity] int not null,
 	FOREIGN KEY (PersonId) REFERENCES People(Id),
-	FOREIGN KEY (ProductId) REFERENCES Products(Id)
+	FOREIGN KEY (ProductId) REFERENCES Products(Id),
+	CONSTRAINT PersonProduct UNIQUE (PersonId, ProductId)
 );
 
 --Delete Table Data
